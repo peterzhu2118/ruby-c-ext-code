@@ -1,0 +1,7 @@
+Makefile
+*.o
+*.so
+*.bundle
+
+.DS_Store
+

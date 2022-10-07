@@ -1,0 +1,35 @@
+require "rake"
+require "rake/extensiontask"
+
+Rake::ExtensionTask.new do |ext|
+  ext.name = "circular_buffer_ivar"
+  ext.ext_dir = "ext_ivar"
+  ext.lib_dir = "."
+end
+
+Rake::ExtensionTask.new do |ext|
+  ext.name = "circular_buffer_typeddata"
+  ext.ext_dir = "ext_typeddata"
+  ext.lib_dir = "."
+end
+
+task test: [:"test:ruby", :"test:ivar", :"test:typeddata"]
+
+namespace :test do
+  def run_test(file, klass)
+    puts "Testing #{klass}"
+    sh("bundle exec #{FileUtils::RUBY} test_circular_buffer.rb #{file} #{klass}")
+  end
+
+  task :ruby do
+    run_test("circular_buffer_ruby", "CircularBufferRuby")
+  end
+
+  task ivar: :"compile:circular_buffer_ivar" do
+    run_test("circular_buffer_ivar", "CircularBufferIvar")
+  end
+
+  task typeddata: :"compile:circular_buffer_typeddata" do
+    run_test("circular_buffer_typeddata", "CircularBufferTypedData")
+  end
+end

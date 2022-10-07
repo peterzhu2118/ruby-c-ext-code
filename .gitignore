@@ -5,3 +5,5 @@ Makefile
 
 .DS_Store
 
+/part9/tmp
+/part9/Gemfile.lock
